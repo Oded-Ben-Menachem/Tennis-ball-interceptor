@@ -1,30 +1,3 @@
-'''
-
-import cv2
-import numpy as np
-
-source = "http://192.168.1.23:8080/video" 
-
-capture_video = cv2.VideoCapture(source)
-
-print('connect...')
-
-
-while True:
-    is_photo ,photo = capture_video.read()
-    if not is_photo:
-        break
-    
-    cv2.imshow('photo',photo)
-    
-   
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-
-
-
-'''
 import cv2
 import numpy as np
 
@@ -34,8 +7,11 @@ avg_bg = None
 alpha = 0.05 # Learning rate for the LPF background model
 
 print("System Initialized. Press 'q' to stop.")
-
+counter = 0
+file_number = 1
 while True:
+    counter +=1
+    if counter > 2000: break
     # 2. Capture Frame
     ret, frame = cap.read()
     if not ret: break
@@ -60,16 +36,21 @@ while True:
     # 6. Digitization (Thresholding)
     # Convert differences to binary mask (0 or 255)
     _, thresh = cv2.threshold(diff, 25, 255, cv2.THRESH_BINARY)
+    
+    
 
     # 7. Spatial Analysis (Finding the Ball)
     contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
+    #print(contours)
     if contours:
+        np.save(f'other_sample{file_number}', thresh)
+        print(f'{file_number} saved')
+        file_number +=1
         # Get the largest moving object to filter out noise
         largest_cnt = max(contours, key=cv2.contourArea)
         
         # Filter by physical size (SNR improvement)
-        if cv2.contourArea(largest_cnt) > 10:
+        if cv2.contourArea(largest_cnt) > 1:
             # 8. Data Extraction (Centroid calculation)
             M = cv2.moments(largest_cnt)
             if M["m00"] != 0:

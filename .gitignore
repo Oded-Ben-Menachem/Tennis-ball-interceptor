@@ -21,3 +21,5 @@ out/
 *.pt
 .DS_Store
 Thumbs.db
+
+.'install try.py'

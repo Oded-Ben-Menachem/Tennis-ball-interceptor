@@ -8,9 +8,10 @@ alpha = 0.05 # Learning rate for the LPF background model
 
 print("System Initialized. Press 'q' to stop.")
 counter = 0
+file_number = 1
 while True:
     counter +=1
-    if counter > 2: break
+    if counter > 200: break
     # 2. Capture Frame
     ret, frame = cap.read()
     if not ret: break
@@ -35,16 +36,21 @@ while True:
     # 6. Digitization (Thresholding)
     # Convert differences to binary mask (0 or 255)
     _, thresh = cv2.threshold(diff, 25, 255, cv2.THRESH_BINARY)
+    
+    
 
     # 7. Spatial Analysis (Finding the Ball)
     contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    print(contours)
+    #print(contours)
     if contours:
+        np.save(f'tennis_sample{file_number}', thresh)
+        print(f'{file_number} saved')
+        file_number +=1
         # Get the largest moving object to filter out noise
         largest_cnt = max(contours, key=cv2.contourArea)
         
         # Filter by physical size (SNR improvement)
-        if cv2.contourArea(largest_cnt) > 500:
+        if cv2.contourArea(largest_cnt) > 1:
             # 8. Data Extraction (Centroid calculation)
             M = cv2.moments(largest_cnt)
             if M["m00"] != 0:
