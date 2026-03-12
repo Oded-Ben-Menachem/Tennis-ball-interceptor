@@ -19,7 +19,7 @@ if __name__ == "__main__":
     # split for traning and for check
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=1)
     # biult the model
-    rf_model = RandomForestClassifier(n_estimators=10 ,random_state=42)
+    rf_model = RandomForestClassifier(n_estimators=30 ,random_state=42)
 
     #trainning the model
     rf_model.fit(X_train, y_train)

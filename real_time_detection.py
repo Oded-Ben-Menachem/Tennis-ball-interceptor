@@ -28,7 +28,7 @@ else:
 
 print(model)
 # 1. Initialize System
-cap = cv2.VideoCapture("http://192.168.1.157:8080/video")
+cap = CameraStream("http://192.168.1.157:8080/video")
 avg_bg = None 
 alpha = 0.05 # Learning rate for the LPF background model
 
@@ -38,9 +38,9 @@ while True:
     in_start = time.perf_counter()
     # 2. Capture Frame
     in_c1 = time.perf_counter()
-    ret, frame = cap.read()
+    frame = cap.read()
     in_c2 = time.perf_counter()
-    if not ret: break
+    if frame is None: break
 
     # 3. Pre-processing (Signal Conditioning)
     # Gray scale and Blur to reduce high-frequency noise
@@ -80,7 +80,7 @@ while True:
             prediction = model.predict(real_time_feature)
             in4 = time.perf_counter()
             #prediction = 'T'
-            print(f'contours: {in2-in1}, prediction: {in4-in3}')
+            # print(f'contours: {in2-in1}, prediction: {in4-in3}')
             if prediction == 'T':
                 M = cv2.moments(obj)
                 if M["m00"] != 0:
@@ -101,7 +101,7 @@ while True:
 
     if cv2.waitKey(1) & 0xFF == ord('q'): break
     in_end = time.perf_counter()
-    print(f'all process: {in_end-in_start}')
-    print(f'check now: {in_c2-in_c1}')
+    #print(f'all process: {in_end-in_start}')
+    #print(f'check now: {in_c2-in_c1}')
 cap.release()
 cv2.destroyAllWindows()
