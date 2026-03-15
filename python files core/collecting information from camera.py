@@ -1,8 +1,12 @@
 import cv2
 import numpy as np
+import os
+from dotenv import load_dotenv
 
 # 1. Initialize System
-cap = cv2.VideoCapture("http://192.168.1.157:8080/video")
+load_dotenv()
+camera_ip = os.getenv("SERVER_IP")
+cap = cv2.VideoCapture(camera_ip)
 avg_bg = None 
 alpha = 0.05 # Learning rate for the LPF background model
 

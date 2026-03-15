@@ -5,7 +5,7 @@ __pycache__/
 .venv/
 venv/
 env/
-
+.env
 
 *.o
 *.obj
@@ -24,5 +24,4 @@ Thumbs.db
 .'samples'
 .'install try.py' 
 .practis_image_process.py
-.'Lesier On Tennis ball'
-.SERVER_IP="http://192.168.1.157:8080/video"
+.'Laser On Tennis ball'
