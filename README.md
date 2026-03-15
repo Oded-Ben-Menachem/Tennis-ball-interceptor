@@ -3,7 +3,7 @@ A computer vision pipeline designed to detect and track fast-moving tennis balls
 
 📺 Project Demo
 If you prefer a video link:
-
+https://github.com/user-attachments/assets/c43ed39d-8e0b-4887-b304-66dfb5811823
 
 🚀 Key Features
 Threaded Processing: Separate thread for camera streaming to minimize frame-drop and latency.
